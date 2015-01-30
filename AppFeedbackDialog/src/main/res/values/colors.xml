@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rate_text_on_color_bg">#FFFFFF</color>
+    <color name="rate_text_on_white_bg">#000000</color>
+    <color name="rate_gradient_light">#fbc02d</color>
+    <color name="rate_gradient_dark">#fdd835</color>
+    <color name="rate_circle_pressed">#fb8c00</color>
+
+    <color name="rate_button_bg">#FFFF</color>
+    <color name="rate_button_selected">#00796b</color>
+    <color name="rate_button_pressed">#fffde7</color>
+
+    <color name="rate_quit_background_pressed">#64ffffff</color>
+    <color name="rate_quit_background_selected">#2fffffff</color>
+
+</resources>
