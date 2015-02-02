@@ -1,4 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = "dk.appdictive.feedbackdialog"
+version = '0.0.3'
 
 android {
     compileSdkVersion 21
@@ -6,6 +11,9 @@ android {
 
     defaultConfig {
         minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName version
     }
 
     buildTypes {
@@ -16,8 +24,95 @@ android {
     }
 }
 
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
 
+}
+
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+
+def siteUrl = 'https://github.com/appdictive/AppFeedbackDialog'
+def gitUrl = 'https://github.com/appdictive/AppFeedbackDialog.git'
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives'] //When uploading configuration files
+
+    pkg {
+        repo = 'maven'
+        userOrg = 'appdictive'
+        name = 'feedback-dialog-library'
+        desc = 'Android Dialog to allow selective user feedback.'
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        issueTrackerUrl = 'https://github.com/appdictive/AppFeedbackDialog/issues'
+        licenses = ['MIT']
+        labels = ['android', 'dialog', 'feedback', 'aar']
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'Android Dialog to allow selective user feedback.'
+                url siteUrl
+                licenses {
+                    license {
+                        name 'MIT'
+                        url 'http://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'tobalr'
+                        name 'Tobias Alrøe'
+                        email 'tobiasalroe@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+task findConventions << {
+    println project.getConvention()
 }
