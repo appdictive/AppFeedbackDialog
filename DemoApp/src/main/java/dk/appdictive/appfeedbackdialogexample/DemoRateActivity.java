@@ -13,7 +13,7 @@ import dk.appdictive.feedbackdialog.rate_dialog.model.Email;
 /**
  * Created by tobalr on 21-01-2015.
  */
-public class MainActivity extends ActionBarActivity {
+public class DemoRateActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,12 +22,12 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void sendEmailFeedback() {
                 Email email = new Email("test@test.com", "subject", "message");
-                RateDialogHelper.openEmailProgramAndStartEmail(MainActivity.this, email);
+                RateDialogHelper.openEmailProgramAndStartEmail(DemoRateActivity.this, email);
             }
 
             @Override
             public void startGooglePlayForRating() {
-                RateDialogHelper.openGooglePlayOnApp(MainActivity.this);
+                RateDialogHelper.openGooglePlayOnApp(DemoRateActivity.this);
 
             }
 
