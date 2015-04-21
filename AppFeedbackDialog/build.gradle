@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = "dk.appdictive.feedbackdialog"
-version = '0.0.3'
+version = '0.0.4'
 
 android {
     compileSdkVersion 21
@@ -12,7 +12,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 1
+        versionCode 4
         versionName version
     }
 
@@ -77,6 +77,11 @@ install {
                         id 'tobalr'
                         name 'Tobias Alrøe'
                         email 'tobiasalroe@gmail.com'
+                    }
+                    developer {
+                        id 'jesperlr'
+                        name 'Jesper Lysgaard Rasmussen'
+                        email 'repsejlysras@gmail.com'
                     }
                 }
                 scm {

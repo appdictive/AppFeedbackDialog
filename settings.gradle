@@ -1,1 +1,1 @@
-include ':app', ':AppFeedbackDialog'
+include ':DemoApp', ':AppFeedbackDialog'
