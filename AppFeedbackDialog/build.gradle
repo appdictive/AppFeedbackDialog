@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = "dk.appdictive.feedbackdialog"
-version = '0.0.4'
+version = '0.0.5'
 
 android {
     compileSdkVersion 21
