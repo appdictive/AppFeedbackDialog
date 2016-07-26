@@ -1,12 +1,12 @@
 App Feedback Dialog
 ====================
 
-A simple dialog for feedback making it possible to redirect the users depending on their rating.
+A simple dialog for user feedback making it possible to redirect the users depending on their rating.
 
 ![RateDialog example](https://github.com/appdictive/AppFeedbackDialog/blob/master/RateDialog.gif?raw=tru)
 
-In the shown example if a user would give a negative rating they would be directed to an E-mail intent so to have them help improve the application by writing to the developers.
-If instead the user would give a positive rating they would be redirected to Google Play to add the rating there.
+If a user gives a poor rating they will be directed to an E-mail intent to let them help improve the app by writing to the developers.
+If instead the user gives a good rating they will be redirected to Google Play to add the rating there.
 
 Usage
 ====================
@@ -22,8 +22,8 @@ dependencies {
 To initiate a RateDialog you need to provide a RateDialogStrategy, a RateDialogTitle and an optional color.
 
 The RateDialogStrategy provides the callbacks used by the RateDialog.
-The title is devided in to two segments for emphesis as seen in the above image.
-Finally a optional color which colors the dialog background and button
+The title is divided into two segments for emphasis as seen in the above image.
+Finally an optional color which customizes the dialog background and button.
 
 ```java
 private final RateDialogStrategy rateDialogStrategy = new RateDialogStrategy() {
