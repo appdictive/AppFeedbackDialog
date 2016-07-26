@@ -1,4 +1,4 @@
-package dk.appdictive.feedbackdialog.rate_dialog;
+package dk.appdictive.feedbackdialog.rate_dialog.helpers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +20,6 @@ public class RateDialogHelper {
         context.startActivity(emailIntent);
     }
 
-
     public static void openGooglePlayOnApp(Context context) {
         final String appPackageName = context.getPackageName();
         try {
@@ -29,6 +28,4 @@ public class RateDialogHelper {
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
         }
     }
-
-
 }

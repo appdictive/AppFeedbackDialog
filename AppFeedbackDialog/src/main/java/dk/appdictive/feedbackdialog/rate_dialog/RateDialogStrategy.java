@@ -6,7 +6,9 @@ import android.content.DialogInterface;
  * Created by tobalr on 21-01-2015.
  */
 public interface RateDialogStrategy extends DialogInterface.OnDismissListener {
-    void sendEmailFeedback();
+    void onNegativeFeedback();
 
-    void startGooglePlayForRating();
+    void onPositiveFeedback();
+
+    boolean isRatingGood(int seekPosition);
 }

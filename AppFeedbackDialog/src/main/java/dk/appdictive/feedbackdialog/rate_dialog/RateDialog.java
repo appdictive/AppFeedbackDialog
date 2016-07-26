@@ -6,13 +6,17 @@ import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -23,10 +27,13 @@ public class RateDialog extends Dialog {
 
     public static final int ROTATE_ANIMATION_DURATION_MILLIS = 300;
     public static final int SEEK_CENTER = 50;
+    public static final int SEEK_MAX = 100;
     public static final int SEEK_AT_START = 51;
     private static final String TAG = "rate dialog";
     protected final RateDialogStrategy mStrategy;
     public Context mContext;
+    protected RateDialogTitle mRateDialogTitle;
+    private int mBackgroundColor;
     private ImageView mIPoo;
     private ImageView mIHeart;
     private int mPreviousSeek;
@@ -35,21 +42,25 @@ public class RateDialog extends Dialog {
     private TextView mTButton;
     private int mButtonWidth;
     private AnimatorSet mAnimatorSet;
-    protected RateDialogTitle mRateDialogTitle;
-
 
     public RateDialog(Context context) {
         super(context);
 
         mStrategy = new RateDialogStrategy() {
+
             @Override
-            public void sendEmailFeedback() {
+            public void onNegativeFeedback() {
 
             }
 
             @Override
-            public void startGooglePlayForRating() {
+            public void onPositiveFeedback() {
 
+            }
+
+            @Override
+            public boolean isRatingGood(int seekPosition) {
+                return seekPosition > RateDialog.SEEK_CENTER;
             }
 
             @Override
@@ -59,7 +70,6 @@ public class RateDialog extends Dialog {
         };
 
         mContext = context;
-
         mRateDialogTitle = new RateDialogTitle("Do you love", "Our app name ?");
     }
 
@@ -68,6 +78,15 @@ public class RateDialog extends Dialog {
         mRateDialogTitle = rateDialogTitle;
         mStrategy = strategy;
         mContext = context;
+        mBackgroundColor = mContext.getResources().getColor(R.color.rate_light);
+    }
+
+    public RateDialog(Context context, RateDialogTitle rateDialogTitle, RateDialogStrategy strategy, int backgroundColor) {
+        super(context);
+        mRateDialogTitle = rateDialogTitle;
+        mStrategy = strategy;
+        mContext = context;
+        mBackgroundColor = backgroundColor;
     }
 
     @Override
@@ -75,7 +94,10 @@ public class RateDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.rate_dialog);
-        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        LinearLayout mBackground = (LinearLayout) findViewById(R.id.rate_background);
+        mBackground.setBackgroundColor(mBackgroundColor);
 
         mTHeader = (TextView) findViewById(R.id.rate_text_header);
         mTAppName = (TextView) findViewById(R.id.rate_text_app_name);
@@ -88,7 +110,6 @@ public class RateDialog extends Dialog {
         setupCloseButton();
 
         setOnDismissListener(mStrategy);
-
     }
 
     private void setupTitleText() {
@@ -97,32 +118,29 @@ public class RateDialog extends Dialog {
     }
 
     private void setupFeedbackButton() {
+        ImageView circleButton = (ImageView) findViewById(R.id.rate_circle_button);
+        final Drawable drawable = circleButton.getBackground();
+        drawable.setColorFilter(mBackgroundColor, PorterDuff.Mode.SRC_ATOP);
+
         RelativeLayout feedbackButton = (RelativeLayout) findViewById(R.id.rate_button_feedback);
         feedbackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isRatingGood()) {
+                if (mStrategy.isRatingGood(mPreviousSeek)) {
                     startGooglePlayForRating();
                 } else {
                     sendEmailFeedback();
                 }
-
             }
         });
     }
 
-
-
     private void sendEmailFeedback() {
-        mStrategy.sendEmailFeedback();
+        mStrategy.onNegativeFeedback();
     }
 
     private void startGooglePlayForRating() {
-        mStrategy.startGooglePlayForRating();
-    }
-
-    private boolean isRatingGood() {
-        return mPreviousSeek > SEEK_CENTER;
+        mStrategy.onPositiveFeedback();
     }
 
     private void setupCloseButton() {
@@ -138,7 +156,7 @@ public class RateDialog extends Dialog {
     private void setupSeekBar() {
         SeekBar seekBar = (SeekBar) findViewById(R.id.rate_seekBar);
         seekBar.setProgress(SEEK_AT_START);
-        mPreviousSeek = 51;
+        mPreviousSeek = SEEK_AT_START;
         mIPoo = (ImageView) findViewById(R.id.rate_poo);
         mIHeart = (ImageView) findViewById(R.id.rate_heart);
 
@@ -152,10 +170,10 @@ public class RateDialog extends Dialog {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 updateImagesAccordingToSeekBar(i);
-                if (mPreviousSeek >= SEEK_CENTER && i < SEEK_CENTER) {
+                if (mStrategy.isRatingGood(mPreviousSeek) && !mStrategy.isRatingGood(i)) {
                     String emailText = mContext.getString(R.string.go_to_email);
                     animateButtonToText(emailText);
-                } else if (mPreviousSeek <= SEEK_CENTER && i > SEEK_CENTER) {
+                } else if (!mStrategy.isRatingGood(mPreviousSeek) && mStrategy.isRatingGood(i)) {
                     String googlePlayText = mContext.getString(R.string.go_to_google_play);
                     animateButtonToText(googlePlayText);
                 }
@@ -164,24 +182,25 @@ public class RateDialog extends Dialog {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         };
     }
 
     private void animateButtonToText(String text) {
-
-        if (mAnimatorSet != null) mAnimatorSet.end();
-        else mAnimatorSet = new AnimatorSet();
+        if (mAnimatorSet != null) {
+            mAnimatorSet.end();
+        } else {
+            mAnimatorSet = new AnimatorSet();
+        }
 
         float xPos = mTButton.getX();
-
-        if (mButtonWidth == 0) mButtonWidth = mTButton.getWidth();
+        if (mButtonWidth == 0) {
+            mButtonWidth = mTButton.getWidth();
+        }
 
         mAnimatorSet.play(ObjectAnimator.ofFloat(mTButton, View.X, xPos, mButtonWidth * -1))
                 .with(getButtonTextChangeAnimator(text))
@@ -191,7 +210,6 @@ public class RateDialog extends Dialog {
         mAnimatorSet.setDuration(ROTATE_ANIMATION_DURATION_MILLIS / 2);
         mAnimatorSet.start();
     }
-
 
     private ValueAnimator getButtonTextChangeAnimator(final String newText) {
         ValueAnimator changeTextAnimator = ValueAnimator.ofInt(0, 100);
@@ -221,10 +239,8 @@ public class RateDialog extends Dialog {
         Typeface typeFaceCondensedRegular = Typeface.createFromAsset(mContext.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         Typeface typeFaceBold = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Bold.ttf");
 
-
         mTHeader.setTypeface(typeFaceCondensedRegular);
         mTAppName.setTypeface(typeFaceCondensedBold);
         mTButton.setTypeface(typeFaceBold);
     }
 }
-//

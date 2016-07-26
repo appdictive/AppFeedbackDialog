@@ -6,6 +6,6 @@
     >
 
     <solid
-        android:color="@color/rate_button_bg"/>
+        android:color="@color/rate_light"/>
 
 </shape>

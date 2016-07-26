@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">AppFeedbackDialogExample</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="welcome">Welcome to the RateDialog demo application.</string>
+    <string name="btn_open_dialog">Open RateDialog</string>
 
 </resources>

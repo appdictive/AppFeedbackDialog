@@ -5,22 +5,18 @@ import android.net.Uri;
 
 import java.io.File;
 
-
 /**
  * Created by tobalr on 21-10-2014.
  * Helper class for sending emails
  */
 
-
 public class EmailHelper {
 
     public static Intent getEmailIntent(String toEmailAdr, String subject, String message, String intentChooserTitle) {
         return getEmailIntent(toEmailAdr, subject, message, null, intentChooserTitle);
-
     }
 
     public static Intent getEmailIntent(String toEmailAdr, String subject, String message, File attachmentFile, String intentChooserTitle) {
-
         String uriText =
                 "mailto:" + toEmailAdr +
                         "?subject=" + Uri.encode(subject) +
@@ -32,7 +28,4 @@ public class EmailHelper {
         if (attachmentFile != null) sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(attachmentFile));
         return Intent.createChooser(sendIntent, intentChooserTitle);
     }
-
-
-
 }

@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginLeft="@dimen/activity_horizontal_margin"
-              android:layout_marginRight="@dimen/activity_horizontal_margin"
-              android:orientation="vertical"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/rate_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="8"
-        android:background="@drawable/rate_dialog_color_drawable"
-        android:orientation="vertical"
-        >
+        android:background="@color/rate_light"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/rate_close"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
-            android:alpha="0.5"
-            android:background="@drawable/rate_quit_background_selector"
-            android:src="@drawable/ic_navigation_cancel"/>
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/ic_navigation_cancel" />
 
         <TextView
             android:id="@+id/rate_text_header"
@@ -33,8 +34,7 @@
             android:layout_marginLeft="20dp"
             android:textColor="@color/rate_text_on_color_bg"
             android:textSize="25sp"
-            tools:text="Do you love"
-            />
+            tools:text="Do you love" />
 
         <TextView
             android:id="@+id/rate_text_app_name"
@@ -43,8 +43,7 @@
             android:layout_marginLeft="20dp"
             android:textColor="@color/rate_text_on_color_bg"
             android:textSize="30sp"
-            tools:text="Wallpaper Saver ?"
-            />
+            tools:text="Wallpaper Saver ?" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -55,16 +54,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/ic_rate_poo"
-                />
+                android:src="@drawable/ic_rate_poo" />
 
             <ImageView
                 android:id="@+id/rate_heart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_rate_heart"
-                />
+                android:src="@drawable/ic_rate_heart" />
 
             <SeekBar
                 android:id="@+id/rate_seekBar"
@@ -78,10 +75,7 @@
                 android:layout_toRightOf="@id/rate_poo"
                 android:indeterminateDrawable="@drawable/rateapptheme_scrubber_progress_horizontal_holo_light"
                 android:progressDrawable="@drawable/rateapptheme_scrubber_progress_horizontal_holo_light"
-                android:thumb="@drawable/rateapptheme_scrubber_control_selector_holo_light"
-
-
-                />
+                android:thumb="@drawable/rateapptheme_scrubber_control_selector_holo_light" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -92,22 +86,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="2"
-        android:background="@drawable/rate_button_selector"
-        android:padding="15dp"
-        >
-        <!--android:background="@android:color/white"-->
-
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="15dp">
 
         <ImageView
             android:id="@+id/rate_circle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/rate_circle_selector"
-            android:src="@drawable/ic_navigation_forward"/>
+            android:background="@drawable/rate_circle"
+            android:src="@drawable/ic_navigation_forward" />
 
         <TextView
             android:id="@+id/rate_text_button"
@@ -120,10 +112,6 @@
             android:minLines="2"
             android:text="@string/go_to_google_play"
             android:textColor="@color/rate_text_on_white_bg"
-            android:textSize="20sp"
-            />
-
+            android:textSize="20sp" />
     </RelativeLayout>
-
-
 </LinearLayout>
