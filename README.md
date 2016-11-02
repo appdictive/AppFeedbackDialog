@@ -18,6 +18,12 @@ dependencies {
     compile 'dk.appdictive.feedbackdialog:AppFeedbackDialog:0.1.5'
 }
 ```
+then add the following to your repositories
+```java
+repositories {
+    maven { url "http://dl.bintray.com/appdictive/maven/" }
+}
+```
 
 To initiate a RateDialog you need to provide a RateDialogStrategy, a RateDialogTitle and an optional color.
 
