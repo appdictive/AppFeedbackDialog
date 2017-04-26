@@ -65,6 +65,20 @@ Afterwards you can use the RateDialog by creating a new instance and showing it.
 new RateDialog(Context, rateDialogTitle, rateDialogStrategy, color).show();
 ```
 
+Or use the builder for more customizability
+```java
+final RateDialog rateDialog = new RateDialog.
+    RateDialogBuilder(DemoRateBuilderActivity.this).
+    rateDialogTitle(rateDialogTitle).
+    strategy(rateDialogStrategy).
+    backgroundColor(color).
+    positiveTextResource(R.string.resource_positive_text).
+    negativeTextResource(R.string.resource_negative_text).
+    build();
+
+rateDialog.show();
+```
+
 In the project is also included a helper class. The RateDialogHelper provides to methods, one for starting an E-mail intent to send feedback via. E-mail and another for opening the app on Google Play.
 
 ```java
