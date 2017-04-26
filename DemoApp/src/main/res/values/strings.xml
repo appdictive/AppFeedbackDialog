@@ -5,5 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="welcome">Welcome to the RateDialog demo application.</string>
     <string name="btn_open_dialog">Open RateDialog</string>
-
+    <string name="resource_positive_text">Positive text from resource</string>
+    <string name="resource_negative_text">Negative text from resource</string>
 </resources>

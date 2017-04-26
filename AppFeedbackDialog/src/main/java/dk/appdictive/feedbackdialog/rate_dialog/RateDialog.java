@@ -30,10 +30,14 @@ public class RateDialog extends Dialog {
     public static final int SEEK_MAX = 100;
     public static final int SEEK_AT_START = 51;
     private static final String TAG = "rate dialog";
+
     protected final RateDialogStrategy mStrategy;
-    public Context mContext;
     protected RateDialogTitle mRateDialogTitle;
+    public Context mContext;
     private int mBackgroundColor;
+    private int positiveText = R.string.go_to_email;;
+    private int negativeText = R.string.go_to_google_play;
+
     private ImageView mIPoo;
     private ImageView mIHeart;
     private int mPreviousSeek;
@@ -87,6 +91,16 @@ public class RateDialog extends Dialog {
         mStrategy = strategy;
         mContext = context;
         mBackgroundColor = backgroundColor;
+    }
+
+    public RateDialog(RateDialogBuilder rateDialogBuilder) {
+        super(rateDialogBuilder.mContext);
+        mContext = rateDialogBuilder.mContext;
+        mRateDialogTitle = rateDialogBuilder.mRateDialogTitle;
+        mStrategy = rateDialogBuilder.mStrategy;
+        mBackgroundColor = rateDialogBuilder.mBackgroundColor;
+        positiveText = rateDialogBuilder.positiveText;
+        negativeText = rateDialogBuilder.negativeText;
     }
 
     @Override
@@ -171,10 +185,10 @@ public class RateDialog extends Dialog {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 updateImagesAccordingToSeekBar(i);
                 if (mStrategy.isRatingGood(mPreviousSeek) && !mStrategy.isRatingGood(i)) {
-                    String emailText = mContext.getString(R.string.go_to_email);
+                    String emailText = mContext.getString(positiveText);
                     animateButtonToText(emailText);
                 } else if (!mStrategy.isRatingGood(mPreviousSeek) && mStrategy.isRatingGood(i)) {
-                    String googlePlayText = mContext.getString(R.string.go_to_google_play);
+                    String googlePlayText = mContext.getString(negativeText);
                     animateButtonToText(googlePlayText);
                 }
                 mPreviousSeek = i;
@@ -242,5 +256,73 @@ public class RateDialog extends Dialog {
         mTHeader.setTypeface(typeFaceCondensedRegular);
         mTAppName.setTypeface(typeFaceCondensedBold);
         mTButton.setTypeface(typeFaceBold);
+    }
+
+    public static class RateDialogBuilder{
+        protected RateDialogStrategy mStrategy;
+        protected RateDialogTitle mRateDialogTitle;
+        public Context mContext;
+        private int mBackgroundColor;
+        private int positiveText;
+        private int negativeText;
+
+        public RateDialogBuilder(Context context){
+            mContext = context;
+            mStrategy = new RateDialogStrategy() {
+
+                @Override
+                public void onNegativeFeedback() {
+
+                }
+
+                @Override
+                public void onPositiveFeedback() {
+
+                }
+
+                @Override
+                public boolean isRatingGood(int seekPosition) {
+                    return seekPosition > RateDialog.SEEK_CENTER;
+                }
+
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+
+                }
+            };
+            mRateDialogTitle = new RateDialogTitle("Do you love", "Our app name ?");
+            mBackgroundColor = mContext.getResources().getColor(R.color.rate_light);
+            positiveText = R.string.go_to_email;
+            negativeText = R.string.go_to_google_play;
+        }
+
+        public RateDialogBuilder strategy(RateDialogStrategy strategy){
+            this.mStrategy = strategy;
+            return this;
+        }
+
+        public RateDialogBuilder rateDialogTitle(RateDialogTitle rateDialogTitle){
+            this.mRateDialogTitle = rateDialogTitle;
+            return this;
+        }
+
+        public RateDialogBuilder positiveTextResource(int positiveTextResource){
+            this.positiveText = positiveTextResource;
+            return this;
+        }
+
+        public RateDialogBuilder negativeTextResource(int negativeTextResource){
+            this.negativeText = negativeTextResource;
+            return this;
+        }
+
+        public RateDialogBuilder backgroundColor(int backgroundColor){
+            this.mBackgroundColor = backgroundColor;
+            return this;
+        }
+
+        public RateDialog build(){
+            return new RateDialog(this);
+        }
     }
 }

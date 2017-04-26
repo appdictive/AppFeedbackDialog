@@ -98,8 +98,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
             android:background="@drawable/rate_circle"
-            android:src="@drawable/ic_navigation_forward" />
+            android:src="@drawable/ic_navigation_forward"/>
 
         <TextView
             android:id="@+id/rate_text_button"
@@ -110,8 +111,10 @@
             android:layout_toLeftOf="@id/rate_circle_button"
             android:gravity="center_vertical"
             android:minLines="2"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="@string/go_to_google_play"
             android:textColor="@color/rate_text_on_white_bg"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
     </RelativeLayout>
 </LinearLayout>

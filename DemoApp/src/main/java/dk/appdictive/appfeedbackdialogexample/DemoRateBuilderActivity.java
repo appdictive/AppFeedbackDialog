@@ -16,18 +16,18 @@ import dk.appdictive.feedbackdialog.rate_dialog.model.Email;
 /**
  * Created by tobalr on 21-01-2015.
  */
-public class DemoRateActivity extends AppCompatActivity {
+public class DemoRateBuilderActivity extends AppCompatActivity {
 
     private final RateDialogStrategy rateDialogStrategy = new RateDialogStrategy() {
         @Override
         public void onNegativeFeedback() {
             Email email = new Email("test@test.com", "subject", "message");
-            RateDialogHelper.openEmailProgramAndStartEmail(DemoRateActivity.this, email);
+            RateDialogHelper.openEmailProgramAndStartEmail(DemoRateBuilderActivity.this, email);
         }
 
         @Override
         public void onPositiveFeedback() {
-            RateDialogHelper.openGooglePlayOnApp(DemoRateActivity.this);
+            RateDialogHelper.openGooglePlayOnApp(DemoRateBuilderActivity.this);
         }
 
         @Override
@@ -37,7 +37,7 @@ public class DemoRateActivity extends AppCompatActivity {
 
         @Override
         public void onDismiss(DialogInterface dialog) {
-            Toast.makeText(DemoRateActivity.this, "Dialog closed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DemoRateBuilderActivity.this, "Dialog closed", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -52,7 +52,15 @@ public class DemoRateActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final RateDialogTitle rateDialogTitle = new RateDialogTitle("Do you love", "RateDialog?");
                 final int color = getResources().getColor(android.R.color.holo_orange_dark);
-                new RateDialog(DemoRateActivity.this, rateDialogTitle, rateDialogStrategy, color).show();
+                final RateDialog rateDialog = new RateDialog.
+                        RateDialogBuilder(DemoRateBuilderActivity.this).
+                        rateDialogTitle(rateDialogTitle).
+                        strategy(rateDialogStrategy).
+                        backgroundColor(color).
+                        positiveTextResource(R.string.resource_positive_text).
+                        negativeTextResource(R.string.resource_negative_text).
+                        build();
+                rateDialog.show();
             }
         });
     }
