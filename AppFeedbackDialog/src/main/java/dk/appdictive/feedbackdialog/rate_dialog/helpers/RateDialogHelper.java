@@ -6,7 +6,6 @@ import android.net.Uri;
 
 import dk.appdictive.feedbackdialog.rate_dialog.model.Email;
 import dk.appdictive.rateapp.R;
-import dk.appdictive.feedbackdialog.rate_dialog.helpers.EmailHelper;
 
 /**
  * Created by tobalr on 21-01-2015.
