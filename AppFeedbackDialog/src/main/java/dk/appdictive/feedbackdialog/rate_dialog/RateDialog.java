@@ -32,10 +32,10 @@ public class RateDialog extends Dialog {
     private static final String TAG = "rate dialog";
 
     protected final RateDialogStrategy mStrategy;
-    protected RateDialogTitle mRateDialogTitle;
     public Context mContext;
+    protected RateDialogTitle mRateDialogTitle;
     private int mBackgroundColor;
-    private int positiveText = R.string.go_to_email;;
+    private int positiveText = R.string.go_to_email;
     private int negativeText = R.string.go_to_google_play;
 
     private ImageView mIPoo;
@@ -122,6 +122,12 @@ public class RateDialog extends Dialog {
         setCorrectTypeFace();
         setupFeedbackButton();
         setupCloseButton();
+
+        if (mStrategy.isRatingGood(SEEK_AT_START)) {
+            mTButton.setText(positiveText);
+        } else {
+            mTButton.setText(negativeText);
+        }
 
         setOnDismissListener(mStrategy);
     }
@@ -216,10 +222,7 @@ public class RateDialog extends Dialog {
             mButtonWidth = mTButton.getWidth();
         }
 
-        mAnimatorSet.play(ObjectAnimator.ofFloat(mTButton, View.X, xPos, mButtonWidth * -1))
-                .with(getButtonTextChangeAnimator(text))
-                .before(ObjectAnimator.ofFloat(mTButton, View.X, mButtonWidth * -1, xPos))
-        ;
+        mAnimatorSet.play(ObjectAnimator.ofFloat(mTButton, View.X, xPos, mButtonWidth * -1)).with(getButtonTextChangeAnimator(text)).before(ObjectAnimator.ofFloat(mTButton, View.X, mButtonWidth * -1, xPos));
         mAnimatorSet.setInterpolator(new OvershootInterpolator());
         mAnimatorSet.setDuration(ROTATE_ANIMATION_DURATION_MILLIS / 2);
         mAnimatorSet.start();
@@ -258,15 +261,15 @@ public class RateDialog extends Dialog {
         mTButton.setTypeface(typeFaceBold);
     }
 
-    public static class RateDialogBuilder{
+    public static class RateDialogBuilder {
+        public Context mContext;
         protected RateDialogStrategy mStrategy;
         protected RateDialogTitle mRateDialogTitle;
-        public Context mContext;
         private int mBackgroundColor;
         private int positiveText;
         private int negativeText;
 
-        public RateDialogBuilder(Context context){
+        public RateDialogBuilder(Context context) {
             mContext = context;
             mStrategy = new RateDialogStrategy() {
 
@@ -296,32 +299,32 @@ public class RateDialog extends Dialog {
             negativeText = R.string.go_to_google_play;
         }
 
-        public RateDialogBuilder strategy(RateDialogStrategy strategy){
+        public RateDialogBuilder strategy(RateDialogStrategy strategy) {
             this.mStrategy = strategy;
             return this;
         }
 
-        public RateDialogBuilder rateDialogTitle(RateDialogTitle rateDialogTitle){
+        public RateDialogBuilder rateDialogTitle(RateDialogTitle rateDialogTitle) {
             this.mRateDialogTitle = rateDialogTitle;
             return this;
         }
 
-        public RateDialogBuilder positiveTextResource(int positiveTextResource){
+        public RateDialogBuilder positiveTextResource(int positiveTextResource) {
             this.positiveText = positiveTextResource;
             return this;
         }
 
-        public RateDialogBuilder negativeTextResource(int negativeTextResource){
+        public RateDialogBuilder negativeTextResource(int negativeTextResource) {
             this.negativeText = negativeTextResource;
             return this;
         }
 
-        public RateDialogBuilder backgroundColor(int backgroundColor){
+        public RateDialogBuilder backgroundColor(int backgroundColor) {
             this.mBackgroundColor = backgroundColor;
             return this;
         }
 
-        public RateDialog build(){
+        public RateDialog build() {
             return new RateDialog(this);
         }
     }
