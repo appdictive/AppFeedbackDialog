@@ -15,7 +15,7 @@ To use the RateDialog you first need to add the module to your app dependencies 
 
 ```java
 dependencies {
-    compile 'dk.appdictive.feedbackdialog:AppFeedbackDialog:0.1.5'
+    compile 'dk.appdictive.feedbackdialog:AppFeedbackDialog:0.1.6'
 }
 ```
 then add the following to your repositories
@@ -91,7 +91,7 @@ RateDialogHelper.openGooglePlayOnApp(Context);
 Note on Releases
 ====================
 
-Moving from version 0.0.5 to 0.1.5 is breaking.
+Moving from version 0.0.5 to 0.1.5+ is breaking.
 
 License
 ====================
