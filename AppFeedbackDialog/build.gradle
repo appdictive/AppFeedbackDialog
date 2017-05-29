@@ -3,17 +3,16 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = "dk.appdictive.feedbackdialog"
-version = '0.1.6'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 6
-        versionName version
+        versionCode project.getVersionCode()
+        versionName "${project.getVersionName()}"
     }
 
     buildTypes {
