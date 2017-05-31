@@ -15,7 +15,7 @@ To use the RateDialog you first need to add the module to your app dependencies 
 
 ```java
 dependencies {
-    compile 'dk.appdictive.feedbackdialog:AppFeedbackDialog:0.1.6'
+    compile 'dk.appdictive.feedbackdialog:AppFeedbackDialog:v0.1.7'
 }
 ```
 then add the following to your repositories
