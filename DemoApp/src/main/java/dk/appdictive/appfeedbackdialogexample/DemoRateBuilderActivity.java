@@ -13,9 +13,6 @@ import dk.appdictive.feedbackdialog.rate_dialog.RateDialogTitle;
 import dk.appdictive.feedbackdialog.rate_dialog.helpers.RateDialogHelper;
 import dk.appdictive.feedbackdialog.rate_dialog.model.Email;
 
-/**
- * Created by tobalr on 21-01-2015.
- */
 public class DemoRateBuilderActivity extends AppCompatActivity {
 
     private final RateDialogStrategy rateDialogStrategy = new RateDialogStrategy() {

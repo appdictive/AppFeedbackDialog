@@ -35,8 +35,8 @@ public class RateDialog extends Dialog {
     public Context mContext;
     protected RateDialogTitle mRateDialogTitle;
     private int mBackgroundColor;
-    private int positiveText = R.string.go_to_email;
-    private int negativeText = R.string.go_to_google_play;
+    private int positiveText = R.string.go_to_google_play;
+    private int negativeText = R.string.go_to_email;
 
     private ImageView mIPoo;
     private ImageView mIHeart;
@@ -191,10 +191,10 @@ public class RateDialog extends Dialog {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 updateImagesAccordingToSeekBar(i);
                 if (mStrategy.isRatingGood(mPreviousSeek) && !mStrategy.isRatingGood(i)) {
-                    String emailText = mContext.getString(positiveText);
+                    String emailText = mContext.getString(negativeText);
                     animateButtonToText(emailText);
                 } else if (!mStrategy.isRatingGood(mPreviousSeek) && mStrategy.isRatingGood(i)) {
-                    String googlePlayText = mContext.getString(negativeText);
+                    String googlePlayText = mContext.getString(positiveText);
                     animateButtonToText(googlePlayText);
                 }
                 mPreviousSeek = i;

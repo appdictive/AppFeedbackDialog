@@ -5,11 +5,6 @@ import android.net.Uri;
 
 import java.io.File;
 
-/**
- * Created by tobalr on 21-10-2014.
- * Helper class for sending emails
- */
-
 public class EmailHelper {
 
     public static Intent getEmailIntent(String toEmailAdr, String subject, String message, String intentChooserTitle) {
